@@ -1,3 +1,5 @@
+//Martin Wilson was here
+
 package com.example.postertocalendar;
 
 import androidx.annotation.NonNull;
@@ -54,6 +56,6 @@ public class cameraActivity extends AppCompatActivity {
             ourCamera.close();
             ourCamera = null;
         }
-    }
+    };
 
 }
