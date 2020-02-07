@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -18,8 +19,10 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Size;
@@ -30,6 +33,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class cameraActivity extends AppCompatActivity {
@@ -46,9 +50,12 @@ public class cameraActivity extends AppCompatActivity {
     private String cameraID;
 
     private TextureView cameraPreview;
+    private Surface imagePreview;
     private Size imageDimension;
 
+    protected CaptureRequest.Builder takePictureBuilder;
     protected CaptureRequest.Builder captureRequestBuilder;
+    protected CaptureRequest captureRequest;
     protected CameraCaptureSession cameraSession;
 
 
@@ -80,7 +87,18 @@ public class cameraActivity extends AppCompatActivity {
     }
 
     private void takePicture() {
+        try {
+            takePictureBuilder = ourCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            int rotation = getWindowManager().getDefaultDisplay().getRotation();
+            takePictureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
+
+            int id = cameraSession.capture(captureRequest, captureCallback, null);
+
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -200,6 +218,19 @@ public class cameraActivity extends AppCompatActivity {
             ourCamera = null;
         }
     };
+
+    final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
+        @Override
+        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+
+
+            takePictureBuilder.addTarget(new Surface(cameraPreview.getSurfaceTexture()));
+            takePictureBuilder.set(CaptureRequest.CONTROL_MODE,CameraMetadata.CONTROL_MODE_AUTO);
+
+        }
+    };
+
 
     CameraCaptureSession.StateCallback captureSessionCallBack  = new CameraCaptureSession.StateCallback() {
         @Override
