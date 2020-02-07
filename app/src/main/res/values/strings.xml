@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PosterToCalendar</string>
+    <string name="Btn_Take_Picture">Take Picture</string>
 </resources>
