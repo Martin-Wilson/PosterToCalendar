@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PosterToCalendar</string>
     <string name="Btn_Take_Picture">Take Picture</string>
+    <string name="login_Title">Outlook login page</string>
 </resources>
