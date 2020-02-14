@@ -1,21 +1,88 @@
+
+
 apply plugin: 'com.android.application'
+
+int MILLIS_IN_MINUTE = 1000 * 60
+int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
+
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
     defaultConfig {
-        applicationId "com.example.postertocalendar"
-        minSdkVersion 25
+        applicationId "com.example.posterToCalendar"
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            try {
+                storeFile file(KEYSTORE)
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "release"
+                keyPassword KEY_PASSWORD
+            }
+            catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+
+        debug {
+            try {
+                storeFile file(KEYSTORE)
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "debug"
+                keyPassword KEY_PASSWORD
+            }
+            catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
+
+
+    flavorDimensions  "mode"
+    productFlavors{
+
+
+        demo{
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+            dimension "mode"
+        }
+
+        full{
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+            dimension "mode"
+        }
+
+
+
+    }
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "Release") {
+                    variant.mergedFlavor.versionCode = minutesSinceEpoch;
+                    variant.mergedFlavor.versionName = minutesSinceEpoch + "-" + variant.flavorName;
+                }
+            }
+
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            ext.alwaysUpdateBuildId = false
+
         }
     }
 }
@@ -27,5 +94,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
 }
