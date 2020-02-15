@@ -1,6 +1,6 @@
 package com.example.postertocalendar;
 
-public class imageAnalysis {
+public class ImageAnalysis {
 
 
 }
