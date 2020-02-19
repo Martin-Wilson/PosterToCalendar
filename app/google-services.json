@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "429668764733",
+    "firebase_url": "https://picevent-6dd07.firebaseio.com",
+    "project_id": "picevent-6dd07",
+    "storage_bucket": "picevent-6dd07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429668764733:android:922c0d850f53561e676e54",
+        "android_client_info": {
+          "package_name": "com.example.postertocalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429668764733-v43853ug9hkq78mbqrhv7iiopajeg7h1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.postertocalendar",
+            "certificate_hash": "991981574c244a43f1ca00d688b413cf4eadf77e"
+          }
+        },
+        {
+          "client_id": "429668764733-6380anu23vn55gar6attrgoj0d3t85du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtSPGQWe5pZ2Yku1Wb0HI3kXaNm7W3nQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429668764733-6380anu23vn55gar6attrgoj0d3t85du.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

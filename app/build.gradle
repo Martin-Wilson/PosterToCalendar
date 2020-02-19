@@ -1,6 +1,8 @@
 
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 
 int MILLIS_IN_MINUTE = 1000 * 60
 int minutesSinceEpoch = System.currentTimeMillis() / MILLIS_IN_MINUTE
@@ -11,12 +13,13 @@ android {
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.example.posterToCalendar"
+        applicationId "com.example.postertocalendar"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     signingConfigs {
@@ -47,51 +50,42 @@ android {
 
 
 
-    flavorDimensions  "mode"
-    productFlavors{
 
-
-        demo{
-            applicationIdSuffix ".demo"
-            versionNameSuffix "-demo"
-            dimension "mode"
-        }
-
-        full{
-            applicationIdSuffix ".full"
-            versionNameSuffix "-full"
-            dimension "mode"
-        }
-
-
-
-    }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 if (variant.buildType.name == "Release") {
                     variant.mergedFlavor.versionCode = minutesSinceEpoch;
-                    variant.mergedFlavor.versionName = minutesSinceEpoch + "-" + variant.flavorName;
+                    variant.mergedFlavor.versionName = minutesSinceEpoch;
                 }
             }
 
         }
 
         debug {
-            applicationIdSuffix ".debug"
+
             ext.alwaysUpdateBuildId = false
+
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "Debug") {
+                    variant.mergedFlavor.versionCode = minutesSinceEpoch;
+                    variant.mergedFlavor.versionName = minutesSinceEpoch;
+                }
+            }
 
         }
     }
-}
 
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
